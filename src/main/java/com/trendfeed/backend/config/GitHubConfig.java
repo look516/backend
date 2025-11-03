@@ -15,7 +15,7 @@ public class GitHubConfig {
 
     @Bean
     public WebClient githubWebClient(
-            @Value("${github.base-url}") String baseUrl,
+            @Value("${github.base.url}") String baseUrl,
             @Value("${github.token}") String token
     ) {
         HttpClient httpClient = HttpClient.create()

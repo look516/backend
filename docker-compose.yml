@@ -28,9 +28,12 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/backend_db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
-      GITHUB_TOKEN: ${GITHUB_TOKEN}   # ← 로컬 환경변수에서 주입
+
+      GITHUB_BASE_URL: https://api.github.com
+      GITHUB_TOKEN: ${GITHUB_TOKEN}   #.env
+
       # (옵션) 스케줄 잠깐 끄기: spring.task.scheduling.enabled=false
-      # (옵션) 크론/페이지 등: crawler.cron=0 0 */3 * * *
+      
     ports:
       - "8080:8080"
 

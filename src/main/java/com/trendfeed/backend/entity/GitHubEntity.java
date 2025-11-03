@@ -8,35 +8,41 @@ import java.time.OffsetDateTime;
 public class GitHubEntity {
 
     @Id
-    // 깃허브 repo ID 
     private Long id;
 
     private String nodeId;
     private String name;
-    private String fullName;       // "owner/repo"
-    private String ownerLogin;     // "owner"
+    private String fullName;
+    private String ownerLogin;
     private String htmlUrl;
-    @Column(length = 2000)
-    private String description;
-    private String language;
 
-    private Integer stargazersCount;      // 지금까지 전체 스타 수 (마지막 크롤링 시점)
-    private Integer lastDelta24h;         // 마지막 갱신에서 증가한 스타 수
-    private OffsetDateTime lastStarCheck; // 마지막으로 스타 수 비교한 시각
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    private String language;
+    private Integer stargazersCount;
 
     private OffsetDateTime createdAt;
     private OffsetDateTime pushedAt;
     private OffsetDateTime updatedAt;
+    private OffsetDateTime lastCrawledAt;
 
-    private OffsetDateTime lastCrawledAt; // 메타/README를 마지막으로 가져온 시각
-
-    @Column(columnDefinition = "text")
-    private String readmeText; // raw markdown
+    // ===== README =====
+    @Column(columnDefinition = "TEXT")
+    private String readmeText;
     private String readmeSha;
     private String readmeEtag;
 
-    // --- getters/setters ---
+    // ===== 트렌드 분석용 =====
+    private Integer previousStars;
+    private Double growthRate;      // 증가율 (%)
+    private Double trendScore;      // 최종 점수
+    private Integer trendStage;     // 0: 기본 / 1: 1차관심 / 2: 후보로 승격
+    private OffsetDateTime lastCheckedAt;
 
+    public GitHubEntity() {}
+
+    // Getter/Setter
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -64,12 +70,6 @@ public class GitHubEntity {
     public Integer getStargazersCount() { return stargazersCount; }
     public void setStargazersCount(Integer stargazersCount) { this.stargazersCount = stargazersCount; }
 
-    public Integer getLastDelta24h() { return lastDelta24h; }
-    public void setLastDelta24h(Integer lastDelta24h) { this.lastDelta24h = lastDelta24h; }
-
-    public OffsetDateTime getLastStarCheck() { return lastStarCheck; }
-    public void setLastStarCheck(OffsetDateTime lastStarCheck) { this.lastStarCheck = lastStarCheck; }
-
     public OffsetDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }
 
@@ -90,4 +90,19 @@ public class GitHubEntity {
 
     public String getReadmeEtag() { return readmeEtag; }
     public void setReadmeEtag(String readmeEtag) { this.readmeEtag = readmeEtag; }
+
+    public Integer getPreviousStars() { return previousStars; }
+    public void setPreviousStars(Integer previousStars) { this.previousStars = previousStars; }
+
+    public Double getGrowthRate() { return growthRate; }
+    public void setGrowthRate(Double growthRate) { this.growthRate = growthRate; }
+
+    public Double getTrendScore() { return trendScore; }
+    public void setTrendScore(Double trendScore) { this.trendScore = trendScore; }
+
+    public Integer getTrendStage() { return trendStage; }
+    public void setTrendStage(Integer trendStage) { this.trendStage = trendStage; }
+
+    public OffsetDateTime getLastCheckedAt() { return lastCheckedAt; }
+    public void setLastCheckedAt(OffsetDateTime lastCheckedAt) { this.lastCheckedAt = lastCheckedAt; }
 }
